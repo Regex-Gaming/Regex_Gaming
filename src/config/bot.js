@@ -644,6 +644,33 @@ export function getColor(path, fallback = "#99AAB5") {
 export function getRandomColor() {
   const colors = Object.values(botConfig.embeds.colors).flatMap((color) =>
     typeof color === "string" ? color : Object.values(color),
+ // ⬇️ WRITE THIS AT THE VERY BOTTOM OF YOUR BOT CONFIG FILE ⬇️
+
+import { REST, Routes } from 'discord.js';
+
+export async function registerSlashCommands(client) {
+  if (!process.env.DISCORD_TOKEN || !process.env.CLIENT_ID) {
+    logger.warn('Skipping slash command registration: Missing DISCORD_TOKEN or CLIENT_ID.');
+    return;
+  }
+
+  const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
+
+  try {
+    logger.info('Registering slash commands with Discord...');
+
+    const commandsData = Array.from(client.commands.values()).map(cmd => cmd.data.toJSON());
+
+    await rest.put(
+      Routes.applicationCommands(process.env.CLIENT_ID),
+      { body: commandsData },
+    );
+
+    logger.info('Successfully registered all slash commands!');
+  } catch (error) {
+    logger.error('Error registering slash commands:', error);
+  }
+}                                                               
   );
   return colors[Math.floor(Math.random() * colors.length)];
 }
