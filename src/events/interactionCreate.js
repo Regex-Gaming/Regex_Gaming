@@ -315,14 +315,6 @@ export default {
             import rename from "../modules/ticket/rename.js";
 
 
-          if(interaction.isButton()) {
-
-        if(interaction.customId === "ticket_rename") {
-        return rename.execute(interaction);
-    }
-
-}
-
             if (button) {
               try {
                 await button.execute(interaction, client, [listId]);
@@ -407,23 +399,7 @@ export default {
             }
             return;
           }
-          if(interaction.customId === "rename_modal") {
-
-    const newName = interaction.fields
-        .getTextInputValue("ticket_name");
-
-
-    await interaction.channel.setName(
-        `ticket-${newName}`
-    );
-
-
-    return interaction.reply({
-        content: `✅ Ticket renamed to **${newName}**`,
-        ephemeral:true
-    });
-
-}
+      
 
           if (
             interaction.customId.startsWith('app_review_')
