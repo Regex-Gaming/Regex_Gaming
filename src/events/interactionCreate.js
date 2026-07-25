@@ -312,8 +312,6 @@ export default {
             const buttonType = parts.slice(0, 3).join('_');
             const listId = parts[3];
             const button = client.buttons.get(buttonType);
-            import rename from "../modules/ticket/rename.js";
-
 
             if (button) {
               try {
@@ -399,7 +397,6 @@ export default {
             }
             return;
           }
-      
 
           if (
             interaction.customId.startsWith('app_review_')
